@@ -1,0 +1,1 @@
+var dojoConfig={packages:[{name:"bootstrap",location:"http://esri.github.com/calcite-maps/dist/vendor/dojo-bootstrap"},{name:"calcite-maps",location:"http://esri.github.com/calcite-maps/dist/js/dojo"}]};
