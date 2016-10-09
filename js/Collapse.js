@@ -1,1 +1,168 @@
-define(["./Support","dojo/_base/declare","dojo/query","dojo/_base/lang","dojo/_base/window","dojo/on","dojo/dom-class","dojo/dom-attr","dojo/dom-geometry","dojo/dom-style","dojo/NodeList-dom","dojo/NodeList-traverse","dojo/domReady!"],function(a,b,c,d,e,f,g,h,i,j){"use strict";var k="[data-toggle=collapse]",l=b([],{defaultOptions:{toggle:!0},constructor:function(a,b){this.options=d.mixin(d.clone(this.defaultOptions),b||{}),this.domNode=a,this.transitioning=null,this.options.parent&&(this.parent=c(this.options.parent)),this.options.toggle&&this.toggle()},dimension:function(){return g.contains(this.domNode,"width")?"width":"height"},show:function(){var b,d,e,f;if(!this.transitioning&&!g.con){if(this.parent&&this.options.target&&c("[data-target="+this.options.target+"]",this.parent[0]).forEach(function(a){g.remove(a,"collapsed")}),b=this.dimension(),d=a.toCamel(["scroll",b].join("-")),e=this.parent&&c("> .panel > .in",this.parent[0]),e&&e.length){if(f=a.getData(e[0],"collapse"),f&&f.transitioning)return;e.collapse("hide"),f||a.setData(e[0],"collapse",null)}j.set(this.domNode,b,"0px"),this.transition("add","show","shown"),a.trans&&j.set(this.domNode,b,this.domNode[d]+"px")}},hide:function(){if(!this.transitioning&&g.contains(this.domNode,"in")){this.parent&&this.options.target&&c("[data-target="+this.options.target+"]",this.parent[0]).forEach(function(a){g.add(a,"collapsed")});var a=this.dimension();this.reset(j.get(this.domNode,a)),this.transition("remove","hide","hidden"),j.set(this.domNode,a,"0px")}},reset:function(a){a=a?parseFloat(a,10)+"px":"auto";var b=this.dimension();return g.remove(this.domNode,"collapse"),j.set(this.domNode,b,a),this._offsetWidth=this.domNode.offsetWidth,g[null!==a?"add":"remove"](this.domNode,"collapse"),this},transition:function(b,c,e){var h=d.hitch(this,function(){"show"===c&&this.reset(),this.transitioning=0,"add"===b?g.add(this.domNode,"in"):"remove"===b&&g.add(this.domNode,"collapse"),g.remove(this.domNode,"collapsing"),f.emit(this.domNode,e+".bs.collapse",{bubbles:!1,cancelable:!1})});f.emit(this.domNode,c+".bs.collapse",{bubbles:!1,cancelable:!1}),g.remove(this.domNode,"collapse"),g.add(this.domNode,"collapsing"),"remove"===b&&g.remove(this.domNode,"in"),this.transitioning=1,a.trans?(f.once(this.domNode,a.trans.end,h),a.emulateTransitionEnd(this.domNode,350)):h()},toggle:function(){this[g.contains(this.domNode,"in")?"hide":"show"]()}});return d.extend(c.NodeList,{collapse:function(b){var c=d.isObject(b)?b:!1;return this.forEach(function(e){var f=a.getData(e,"collapse");f||a.setData(e,"collapse",f=new l(e,c)),d.isString(b)&&f[b].call(f)})}}),f(e.body(),f.selector(k,"click"),function(b){var d=this;if("collapse"!==a.getData(d,"toggle")&&(d=c(this).closest("[data-toggle=collapse]")[0]),d){var e=h.get(d,"data-target")||b.preventDefault()||a.hrefValue(d);if(e){var f=a.getData(e,"collapse")?"toggle":a.getData(d);c(e).collapse(f)}}}),l});
+/* ==========================================================
+ * Collapse.js v3.0.0
+ * ==========================================================
+ * Copyright 2012 xsokev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ========================================================== */
+define([
+    './Support',
+    'dojo/_base/declare',
+    'dojo/query',
+    'dojo/_base/lang',
+    'dojo/_base/window',
+    'dojo/on',
+    'dojo/dom-class',
+    'dojo/dom-attr',
+    'dojo/dom-geometry',
+    'dojo/dom-style',
+    'dojo/NodeList-dom',
+    'dojo/NodeList-traverse',
+    'dojo/domReady!'
+], function (support, declare, query, lang, win, on, domClass, domAttr, domGeom, domStyle) {
+    "use strict";
+    var collapseSelector = '[data-toggle=collapse]';
+    var Collapse = declare([], {
+        defaultOptions:{
+            toggle:true
+        },
+        constructor:function (element, options) {
+            this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
+            this.domNode = element;
+            this.transitioning = null;
+            if (this.options.parent) { this.parent = query(this.options.parent); }
+            if (this.options.toggle) { this.toggle(); }
+        },
+        dimension:function () {
+            return domClass.contains(this.domNode, 'width') ? 'width' : 'height';
+        },
+        show:function () {
+            var dimension, scroll, actives, hasData;
+
+            if (this.transitioning || domClass.con) { return; }
+            if(this.parent && this.options.target) {
+                query('[data-target=' + this.options.target + ']', this.parent[0]).forEach(function(el) {
+                    domClass.remove(el, 'collapsed');
+                });
+            }
+
+            dimension = this.dimension();
+            scroll = support.toCamel(['scroll', dimension].join('-'));
+            actives = this.parent && query('> .panel > .in', this.parent[0]);
+
+            if (actives && actives.length) {
+                hasData = support.getData(actives[0], 'collapse');
+                if (hasData && hasData.transitioning) {
+                    return;
+                }
+                actives.collapse('hide');
+                if (!hasData) { support.setData(actives[0], 'collapse', null); }
+            }
+
+            domStyle.set(this.domNode, dimension, '0px');
+            this.transition('add', 'show', 'shown');
+            if (support.trans) { domStyle.set(this.domNode, dimension, this.domNode[scroll] + 'px'); }
+        },
+        hide:function () {
+            if (this.transitioning || !domClass.contains(this.domNode, 'in')) {
+                return;
+            }
+            if(this.parent && this.options.target) {
+                query('[data-target=' + this.options.target + ']', this.parent[0]).forEach(function(el) {
+                    domClass.add(el, 'collapsed');
+                });
+            }
+
+            var dimension = this.dimension();
+            this.reset(domStyle.get(this.domNode, dimension));
+            this.transition('remove', 'hide', 'hidden');
+            domStyle.set(this.domNode, dimension, '0px');
+        },
+        reset:function (size) {
+            size = size ? parseFloat(size, 10) + 'px' : 'auto';
+            var dimension = this.dimension();
+            domClass.remove(this.domNode, 'collapse');
+            domStyle.set(this.domNode, dimension, size);
+            this._offsetWidth = this.domNode.offsetWidth;
+            domClass[(size !== null ? 'add' : 'remove')](this.domNode, 'collapse');
+            return this;
+        },
+        transition:function (method, startEvent, completeEvent) {
+            var _complete = lang.hitch(this, function () {
+                if (startEvent === 'show'){
+                    this.reset();
+                }
+                this.transitioning = 0;
+
+                if(method === 'add'){
+                    domClass.add(this.domNode, 'in');
+                } else if(method === 'remove') {
+                    domClass.add(this.domNode, 'collapse');
+                }
+
+                domClass.remove(this.domNode, 'collapsing');
+                on.emit(this.domNode, completeEvent + '.bs.collapse', {bubbles:false, cancelable:false});
+            });
+
+            on.emit(this.domNode, startEvent + '.bs.collapse', {bubbles:false, cancelable:false});
+
+            domClass.remove(this.domNode, 'collapse');
+            domClass.add(this.domNode, 'collapsing');
+
+            if(method === 'remove'){
+                domClass.remove(this.domNode, 'in');
+            }
+
+            this.transitioning = 1;
+
+            if (support.trans){
+                on.once(this.domNode, support.trans.end, _complete);
+                support.emulateTransitionEnd(this.domNode, 350);
+            } else {
+                _complete();
+            }
+        },
+        toggle:function () {
+            this[domClass.contains(this.domNode, 'in') ? 'hide' : 'show']();
+        }
+    });
+    lang.extend(query.NodeList, {
+        collapse:function (option) {
+            var options = (lang.isObject(option)) ? option : false;
+            return this.forEach(function (node) {
+                var data = support.getData(node, 'collapse');
+                if (!data) {
+                    support.setData(node, 'collapse', (data = new Collapse(node, options)));
+                }
+                if (lang.isString(option)) {
+                    data[option].call(data);
+                }
+            });
+        }
+    });
+
+    on(win.body(), on.selector(collapseSelector, 'click'), function (e) {
+        var node = this;
+        if (support.getData(node, 'toggle') !== 'collapse') {
+            node = query(this).closest('[data-toggle=collapse]')[0];
+        }
+        if (node) {
+            var target = domAttr.get(node, 'data-target') || e.preventDefault() || support.hrefValue(node);
+            if (target) {
+                var option = support.getData(target, 'collapse') ? 'toggle' : support.getData(node);
+                query(target).collapse(option);
+            }
+        }
+    });
+    return Collapse;
+});

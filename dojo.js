@@ -1,1 +1,1 @@
-var dojoConfig={packages:[{name:"bootstrap",location:"https://3group-pmc.github.io/js"},{name:"calcite-maps",location:"https://3group-pmc.github.io/js"}]};
+var dojoConfig={packages:[{name:"bootstrap",location:"https://3group-pmc.github.io/YourPlace/js"},{name:"calcite-maps",location:"https://3group-pmc.github.io/YourPlace/js"}]};

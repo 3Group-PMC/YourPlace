@@ -1,1 +1,204 @@
-define(["dojo/_base/declare","dojo/_base/lang","dojo/query","dojo/dom-class","dojo/on","dojo/domReady!"],function(a,b,c,d,e){var f=a(null,{constructor:function(){this.initEvents()},dropdownMenuItemSelector:".calcite-navbar .calcite-dropdown li > a",autoCollapsePanel:!0,preventOverscrolling:!0,activePanel:null,stickyDropdownDesktop:!0,stickyDropdownMobile:!1,stickyDropdownBreakpoint:768,initEvents:function(){this.setDropdownItemEvents(),this.setDropdownToggleEvents(),this.setToggleNavbarClick(),this.setPanelEvents(),this.setTouchEvents()},setDropdownItemEvents:function(){var a=function(a){var b=!1,f=null,g=null,h=null;if(a.currentTarget.dataset.target&&(f=c(a.currentTarget.dataset.target),f.length>0&&(b=d.contains(f[0],"panel"))),b){g=c(f).query(".panel-collapse"),d.contains(f[0],"in")?(f.removeClass("in"),c(g[0]).removeClass("in"),f.collapse("show"),c(g[0]).collapse("show")):(h=c(f).parent().query(".panel.in"),h.collapse("hide"),c(h).query(".panel-collapse").collapse("hide"),f.collapse("show"),c(g[0]).collapse("show"));var i=window.innerWidth<this.stickyDropdownBreakpoint;if(i&&!this.stickyDropdownMobile||!i&&!this.stickyDropdownDesktop){var j=c(".calcite-dropdown .dropdown-toggle")[0];e.emit(j,"click",{bubbles:!0,cancelable:!0})}this.activePanel=f}}.bind(this);c(this.dropdownMenuItemSelector).on("click",b.hitch(this,a))},setDropdownToggleEvents:function(){c(".calcite-dropdown .dropdown-toggle").on("click",function(){c(this).parent().toggleClass("open"),c(".calcite-dropdown-toggle").toggleClass("open")}),c(".calcite-dropdown").on("hide.bs.dropdown",function(){c(".calcite-dropdown-toggle").removeClass("open")}),c(window).on("click",function(a){var b=c(".calcite-dropdown.open")[0];b&&0===c(a.target).closest(".calcite-dropdown").length&&(c(b).removeClass("open"),c(".calcite-dropdown-toggle").removeClass("open"))})},setToggleNavbarClick:function(){c("#calciteToggleNavbar").on("click",function(){d.contains(c("body")[0],"calcite-nav-hidden")?c("body").removeClass("calcite-nav-hidden"):c("body").addClass("calcite-nav-hidden");var a=c(".calcite-dropdown .dropdown-toggle")[0];a&&e.emit(a,"click",{bubbles:!0,cancelable:!0})})},setPanelEvents:function(){this.autoCollapsePanel&&(c(".calcite-panels .panel .panel-collapse").on("hidden.bs.collapse",function(a){c(a.target.parentNode).query(".panel-label, .panel-close").addClass("visible-mobile-only")}),c(".calcite-panels .panel .panel-collapse").on("show.bs.collapse",function(a){c(a.target.parentNode).query(".panel-label, .panel-close").removeClass("visible-mobile-only")}))},setTouchEvents:function(){var a=function(a){this.preventOverscrolling&&a.target instanceof SVGSVGElement&&a.preventDefault()};c(".calcite-map").on("touchmove",b.hitch(this,a))}});return new f});
+/* ========================================================================
+ * Calcite Maps: calcitemaps.js v0.2 (dojo)
+ * ========================================================================
+ * Generic handlers for mapping-specific UI
+ *
+ * ======================================================================== */
+
+define([
+    "dojo/_base/declare",
+    "dojo/_base/lang",
+    "dojo/query",
+    "dojo/dom-class",
+    "dojo/on",
+    "dojo/domReady!"
+], function(declare, lang, query, domClass, on) {
+
+    var CalciteMaps = declare(null, {
+
+        constructor: function () {
+
+            this.initEvents();
+
+        },
+
+        //--------------------------------------------------------------------------
+        //
+        //  Public
+        //
+        //--------------------------------------------------------------------------
+
+        dropdownMenuItemSelector: ".calcite-navbar .calcite-dropdown li > a",
+
+        autoCollapsePanel: true,
+
+        preventOverscrolling: true,
+
+        activePanel: null,
+
+        stickyDropdownDesktop: true,
+
+        stickyDropdownMobile: false,
+
+        stickyDropdownBreakpoint: 768,
+
+        //----------------------------------
+        // Initialize Handlers
+        //----------------------------------
+
+        initEvents: function() {
+
+            this.setDropdownItemEvents();
+            this.setDropdownToggleEvents();
+            this.setToggleNavbarClick();
+            this.setPanelEvents();
+            this.setTouchEvents();
+
+        },
+
+        //----------------------------------
+        // Dropdown Menu Item Events
+        //----------------------------------
+
+        setDropdownItemEvents: function() {
+
+            var funcContext = function setNavbarEvents(e) {
+
+                var isPanel = false,
+                    panel = null,
+                    panelBody = null,
+                    panels = null;
+
+                if (e.currentTarget.dataset.target) {
+                    panel = query(e.currentTarget.dataset.target);
+                    if (panel.length > 0) {
+                        isPanel = domClass.contains(panel[0], "panel");
+                    }
+                }
+
+                // Toggle panels
+                if (isPanel) {
+                    panelBody = query(panel).query(".panel-collapse");
+                    // Show
+                    if (!domClass.contains(panel[0], "in")) {
+                        // Close panels
+                        panels = query(panel).parent().query(".panel.in");
+                        panels.collapse("hide");
+                        // Close bodies
+                        query(panels).query(".panel-collapse").collapse("hide");
+                        // Show panel
+                        panel.collapse("show");
+                        // Show body
+                        query(panelBody[0]).collapse("show");
+                    } else { // Re-show
+                        panel.removeClass("in");
+                        query(panelBody[0]).removeClass("in");
+                        panel.collapse("show");
+                        query(panelBody[0]).collapse("show");
+                    }
+                    // Dismiss dropdown automatically
+                    var isMobile = window.innerWidth < this.stickyDropdownBreakpoint;
+                    if (isMobile && !this.stickyDropdownMobile || !isMobile && !this.stickyDropdownDesktop) {
+                        var toggle = query(".calcite-dropdown .dropdown-toggle")[0];
+                        on.emit(toggle, "click", { bubbles: true, cancelable: true });
+                    }
+                    this.activePanel = panel;
+                }
+            }.bind(this);
+
+            // Show/hide panels
+
+            query(this.dropdownMenuItemSelector).on("click", lang.hitch(this, funcContext));
+
+        },
+
+        //----------------------------------
+        // Manually show/hide the dropdown
+        //----------------------------------
+
+        setDropdownToggleEvents: function() {
+
+            // Manually show/hide the dropdown
+            query(".calcite-dropdown .dropdown-toggle").on('click', function (e) {
+                query(this).parent().toggleClass("open");
+                query(".calcite-dropdown-toggle").toggleClass("open");
+            });
+
+            query(".calcite-dropdown").on("hide.bs.dropdown", function () {
+                query(".calcite-dropdown-toggle").removeClass("open");
+            });
+
+            // Dismiss dropdown menu
+            query(window).on("click", function (e) {
+                var menu = query(".calcite-dropdown.open")[0];
+                if (menu) {
+                    if (query(e.target).closest(".calcite-dropdown").length === 0) {
+                        query(menu).removeClass("open");
+                        query(".calcite-dropdown-toggle").removeClass("open");
+                    }
+                }
+            });
+        },
+
+        //----------------------------------
+        // Toggle navbar hidden
+        //----------------------------------
+
+        setToggleNavbarClick: function() {
+
+            query("#calciteToggleNavbar").on("click", function(e) {
+                if (!domClass.contains(query("body")[0],"calcite-nav-hidden")) {
+                    query("body").addClass("calcite-nav-hidden");
+                } else {
+                    query("body").removeClass("calcite-nav-hidden");
+                }
+                var menu = query(".calcite-dropdown .dropdown-toggle")[0];
+                if (menu) {
+                    on.emit(menu, "click", { bubbles: true, cancelable: true });
+                }
+            });
+
+        },
+
+        //----------------------------------
+        // Panel Collapse Events
+        //----------------------------------
+
+        setPanelEvents: function() {
+
+            if (this.autoCollapsePanel) {
+                // Hide
+                query(".calcite-panels .panel .panel-collapse").on("hidden.bs.collapse", function(e) {
+                    query(e.target.parentNode).query(".panel-label, .panel-close").addClass("visible-mobile-only");
+                });
+                //Show
+                query(".calcite-panels .panel .panel-collapse").on("show.bs.collapse", function(e) {
+                    query(e.target.parentNode).query(".panel-label, .panel-close").removeClass("visible-mobile-only");
+                });
+            }
+
+        },
+
+        //----------------------------------
+        // Map Touch Events
+        //----------------------------------
+
+        setTouchEvents: function() {
+
+            var funcContext = function setTouchEvents(e) {
+                if (this.preventOverscrolling) {
+                    if (e.target instanceof SVGSVGElement) {
+                        e.preventDefault();
+                    }
+                }
+            }
+
+            // Prevent browser overscroll/bouncing when panning map on mobile
+            query(".calcite-map").on("touchmove", lang.hitch(this, funcContext));
+
+        }
+
+    });
+
+    return new CalciteMaps();
+});
