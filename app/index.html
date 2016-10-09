@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="description" content="YourPlace">
+
+    <title>YourPlace</title>
+
+    <!-- Calcite Bootstrap -->
+    <link rel="stylesheet" href="css/calcite-bootstrap.css">
+
+    <!-- Calcite Maps -->
+    <link rel="stylesheet" href="css/calcite-maps-arcgis.css">
+
+    <!-- ArcGIS JS 4.0 -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
+
+    <link rel="stylesheet" href="app.css">
+
+</head>
+
+<body class="calcite-maps calcite-nav-top">
+
+<!-- Navbar -->
+
+<nav class="navbar calcite-navbar navbar-fixed-top calcite-text-light calcite-bg-dark calcite-bgcolor-dark-blue">
+    <!-- Header -->
+    <div class="navbar-header">
+        <a class="navbar-brand" role="button" id="calciteToggleNavbar" aria-haspopup="true">
+            <span class="esri-icon esri-icon-map-pin"></span>
+        </a>
+    </div>
+    <!-- Title -->
+    <div class="calcite-title calcite-overflow-hidden">
+        <span class="calcite-title-main">YourPlace</span>
+        <span class="calcite-title-divider hidden-xs"></span>
+        <span class="calcite-title-sub hidden-xs">Explore population, age, income and housing values</span>
+    </div>
+    <!-- Nav -->
+    <ul class="calcite-nav nav navbar-nav">
+        <li><a role="button" data-target=".esri-legend" data-toggle="collapse" aria-expanded="true"><span class="glyphicon glyphicon-list"></span></a></li>
+    </ul>
+</nav><!--/.navbar -->
+
+<!-- Map Container  -->
+
+<div class="calcite-map calcite-map-absolute">
+    <div id="mapViewDiv"></div>
+</div><!-- /.container -->
+
+
+<!--dojo config-->
+<script src="dojo.js"type="text/javascript"></script>
+<!-- ArcGIS JS 4.0 -->
+<script src="https://js.arcgis.com/4.0/"></script>
+<!--APP-->
+<script src="app.js"></script>
+
+
+</body>
+</html>

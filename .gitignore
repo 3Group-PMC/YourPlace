@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+# WebStorm:
+.idea/
+# Grunt
+.grunt/
+#nodejs
+node_modules/
+#build
+build/
