@@ -1,4 +1,4 @@
-html, body {
+html, body, #mapViewDiv {
     margin: 0;
     padding: 0;
     height: 100%;

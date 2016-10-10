@@ -4,73 +4,86 @@
 
 require([
     // ArcGIS JS
-    "esri/views/MapView",
-    "esri/Map",
-    "esri/widgets/Legend",
-    "esri/portal/PortalItem",
+
+    "esri/map",
+
     "esri/layers/FeatureLayer",
-    "esri/layers/TileLayer",
+    "esri/layers/ArcGISTiledMapServiceLayer",
+    "esri/layers/WMSLayer",
+    "dojo/query",
+    "esri/dijit/Search",
+    "esri/dijit/Popup",
+    "esri/dijit/PopupTemplate",
+    "esri/config",
     // Bootstrap
     "bootstrap/Collapse",
 
     // Calcite-maps
     "calcite-maps/calcitemaps-v0.2",
     "dojo/domReady!"
-], function(MapView, Map, Legend, PortalItem, FeatureLayer, TileLayer) {
+], function( Map, FeatureLayer, TileLayer, WMSLayer, query, Search,Popup,PopupTemplate, config) {
 
-    // Webmap
-    var map = new Map({
-            basemap: "streets"
-        }
-    );
+    config.defaults.io.corsEnabledServers.push("http://serviciosgis.catastrobogota.gov.co/");
 
-    // View
-    var view = new MapView({
-        map: map,
-        container: "mapViewDiv",
+
+    // Map
+    var map = new Map("mapViewDiv",{
+        basemap: "streets",
         padding: {
             top: 50
         },
         center: [ -74.0817500,4.6097100], // Sets the center point of the view at a specified lon/lat
         zoom: 15 // Sets the zoom LOD to 13
+
     });
 
 
     //add layers
-    var fl2 = new TileLayer({
-        url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/PopulationDensity_Bogota/MapServer"
-        ,outFields : ["*"]
-    });
+    var fl2 = new TileLayer("https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/PopulationDensity_Bogota/MapServer"
+    ,{opacity: 0.6});
 
-    var fl = new FeatureLayer({
-        url: "https://services2.arcgis.com/NFAaR7TquHkVlqVD/arcgis/rest/services/Colegios_Bogota/FeatureServer/0"
-        ,outFields : ["*"]
-    });
+      map.addLayer(fl2);  // adds the layer to the map
 
-    var template = {
+    var template = new PopupTemplate({
         title: "School information {OBJECTID}",
-        content: "{PopupInfo}"
-    };
-    console.log(fl);
-    console.log(fl2);
-    fl.popupTemplate = template;
+        description: "{PopupInfo}"
+    });
 
-   // view.then(function(){
-     //   var legend = new Legend({
-       //     view: view,
-         //   layerInfos:{
-          //      title:'Schools',
-            //    layer:fl
-            //}
-        //});
-        //view.ui.add(legend, "bottom-right");
-        //});
+    var fl = new FeatureLayer("https://services2.arcgis.com/NFAaR7TquHkVlqVD/arcgis/rest/services/Colegios_Bogota/FeatureServer/0",{
+       outFields : ["*"],
+      infoTemplate: template
+    });
 
-    console.log(fl2);
-    map.add(fl2);  // adds the layer to the map
+   map.addLayer(fl);  // adds the layer to the map
 
-    map.add(fl);  // adds the layer to the map
+    var wms = new WMSLayer("http://serviciosgis.catastrobogota.gov.co/arcgis/services/Mapa_Referencia/Mapa_Referencia/MapServer/WMSServer?request=GetCapabilities&service=WMS"
+    , {format: "png"});
+
+    wms.on("error", function (response){
+        console.log("Error: %s", response.error.message);
+    });
+
+    //map.addLayer(wms);
 
 
+
+    // Basemaps
+    query("#selectBasemapPanel").on("change", function(e){
+        map.setBasemap(e.target.options[e.target.selectedIndex].value);
+    });
+
+    var app = {};
+    // Search
+    app.searchDivNav = createSearchWidget("searchNavDiv");
+    app.searchWidgetPanel = createSearchWidget("searchPanelDiv");
+
+    function createSearchWidget(parentId) {
+        var search = new Search({
+            map: map,
+            enableHighlight: false
+        }, parentId);
+        search.startup();
+        return search;
+    }
 
 });

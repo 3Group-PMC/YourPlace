@@ -1,6 +1,6 @@
 # YourPlace
 
-An application to help SMEs to expand or relocate their business with a modern framework for designing map apps with Calcite styles and Bootstrap. 
+An application to help Commercial SMEs to expand or relocate their business with a modern framework for designing map apps with Calcite styles and Bootstrap, using ArcGIS and Open Data initiatives. 
 
 # Frameworks
 
@@ -13,9 +13,12 @@ A modern framework for designing map apps with Calcite styles and Bootstrap.
 
  Run the commands below:
 
- * Run `npm install` (node_modules/bootstrap and calcite-bootstrap)
- * Run `bower install` (bower_components/dojo-bootstrap)
- * Run `grunt` (build out project to ./dist/**)
+ * Run `npm start` (node_modules/bootstrap and calcite-bootstrap)
+ * Run `grunt build` (build out project to build/**)
+ 
+ **Go to the app**
+ 
+ Type in the browser `localhost:8000` after running the `npm` command
 
 ## Resources
 
