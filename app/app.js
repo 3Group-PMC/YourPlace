@@ -56,12 +56,12 @@ require([
 
    map.addLayer(fl);  // adds the layer to the map
 
-    var wms = new WMSLayer("http://serviciosgis.catastrobogota.gov.co/arcgis/services/Mapa_Referencia/Mapa_Referencia/MapServer/WMSServer?request=GetCapabilities&service=WMS"
-    , {format: "png"});
+    //var wms = new WMSLayer("http://serviciosgis.catastrobogota.gov.co/arcgis/services/Mapa_Referencia/Mapa_Referencia/MapServer/WMSServer?request=GetCapabilities&service=WMS"
+   // , {format: "png"});
 
-    wms.on("error", function (response){
-        console.log("Error: %s", response.error.message);
-    });
+  //  wms.on("error", function (response){
+   //     console.log("Error: %s", response.error.message);
+   // });
 
     //map.addLayer(wms);
 
