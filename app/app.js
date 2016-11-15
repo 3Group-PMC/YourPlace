@@ -65,8 +65,22 @@ require([
 
     //map.addLayer(wms);
 
+    //wire event handlers to ensure that the layer which attempts to draw 1000 polygon graphics isn't visible while zooming
+    fl.on("zoom-start", function() {
+        featureLayer.setVisibility(false);
+    });
 
+    fl.on("zoom-end", function() {
+        featureLayer.setVisibility(true);
+    });
 
+    fl2.on("zoom-start", function() {
+        featureLayer.setVisibility(false);
+    });
+
+    fl2.on("zoom-end", function() {
+        featureLayer.setVisibility(true);
+    });
     // Basemaps
     query("#selectBasemapPanel").on("change", function(e){
         map.setBasemap(e.target.options[e.target.selectedIndex].value);
