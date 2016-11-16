@@ -57,7 +57,8 @@
                 <li><a role="button" data-target="#panelInfo" aria-haspopup="true"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>
                 <li><a class="visible-xs" role="button" data-target="#panelSearch" aria-haspopup="true"><span class="glyphicon glyphicon-search"></span> Búsqueda</a></li>
                 <li><a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span> Mapas Base</a></li>
-                 </ul>
+                <li><a role="button" data-target="#panelVisibility" aria-haspopup="true"><span class="glyphicon glyphicon-eye-open"></span> Visibilidad de Capas</a></li>
+            </ul>
         </div>
 
     <!-- Search -->
@@ -76,14 +77,14 @@
 <div class="calcite-panels calcite-panels-right calcite-bg-custom calcite-text-light calcite-bgcolor-dark-blue panel-group" role="tablist" aria-multiselectable="true">
 
     <!-- Info Panel -->
-    <div id="panelInfo" class="panel collapse" >
+    <div id="panelInfo" class="panel collapse in" >
         <div id="headingInfo" class="panel-heading" role="tab">
             <div class="panel-title">
-                <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span class="panel-label">Info</span></a>
+                <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo" aria-expanded="false" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span class="panel-label">Info</span></a>
                 <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
             </div>
         </div>
-        <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInfo">
+        <div id="collapseInfo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingInfo">
             <div class="panel-body">
                 <p> Aplicación para ayudar a PYMES comercializadoras a expandir o reubicar su negocio.
                     Desarrollada con un framework moderno para el diseño de aplicaciones basadas en mapas con estilos Calcite
@@ -118,17 +119,34 @@
         <div id="collapseBasemaps" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingBasemaps"  style="height: auto;">
             <div class="panel-body">
                 <select id="selectBasemapPanel" class="form-control">
-                    <option value="streets" data-vector="streets-vector"  selected="">Streets</option>
+                    <option value="streets" data-vector="streets-vector"  >Streets</option>
                     <option value="satellite" data-vector="satellite">Satellite</option>
                     <option value="hybrid" data-vector="hybrid">Hybrid</option>
                     <option value="national-geographic" data-vector="national-geographic">National Geographic</option>
                     <option value="topo" data-vector="topo-vector">Topographic</option>
                     <option value="gray" data-vector="gray-vector">Gray</option>
                     <option value="dark-gray" data-vector="dark-gray-vector">Dark Gray</option>
-                    <option value="osm" data-vector="osm">Open Street Map</option>
+                    <option value="osm" data-vector="osm" selected="">Open Street Map</option>
                     <option value="dark-gray" data-vector="streets-night-vector">Streets Night</option>
                     <option value="streets" data-vector="streets-navigation-vector">Streets Mobile</option>
                 </select>
+            </div>
+        </div>
+    </div>
+    <!-- Visibility Panel -->
+    <div id="panelVisibility" class="panel collapse in"  style="height: auto;">
+        <div id="headingVisibility" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseVisibility" aria-expanded="false" aria-controls="collapseVisibility"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span class="panel-label">Visibilidad de Capas</span></a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelVisibility"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
+            </div>
+        </div>
+        <div id="collapseVisibility" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingVisibility"  style="height: auto;">
+            <div class="panel-body">
+                <input id="layer1" class="form-control" type="checkbox">Densidad Poblacional
+                    </input>
+                <input id="graphicsLayer2" class="form-control" type="checkbox">Instituciones Educativas
+                </input>
             </div>
         </div>
     </div>
