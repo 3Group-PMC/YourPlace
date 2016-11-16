@@ -57,3 +57,14 @@ A copy of the license is available in the repository's [license.txt](https://git
 
 [](Esri Tags: Web Mapping ArcGIS Leaflet CSS Sass Frameworks esri-leaflet Design Basemaps Bootstrap Calcite Calcite-Maps JavaScript Calcite-Bootstrap Grunt)
 [](Esri Language: CSS)
+
+### Esri
+
+[Schools layer](http://www.arcgis.com/home/item.html?id=cc2a4655fde84167ab62028737be3d53#overview)
+ 
+[Population Density layer](http://www.arcgis.com/home/item.html?id=9091f050a9d847309fee7e16da80bc11)(This work is licensed under the Web Services and API Terms of Use. See the link)
+
+
+### Cámara de Comercio de Bogotá
+
+[Open Data Portal](http://opendatabogota.ccb.org.co/SitePages/Odata_ccb.aspx)

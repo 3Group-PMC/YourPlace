@@ -77,14 +77,14 @@
 <div class="calcite-panels calcite-panels-right calcite-bg-custom calcite-text-light calcite-bgcolor-dark-blue panel-group" role="tablist" aria-multiselectable="true">
 
     <!-- Info Panel -->
-    <div id="panelInfo" class="panel collapse in" >
+    <div id="panelInfo" class="panel collapse " >
         <div id="headingInfo" class="panel-heading" role="tab">
             <div class="panel-title">
                 <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo" aria-expanded="false" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span class="panel-label">Info</span></a>
                 <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
             </div>
         </div>
-        <div id="collapseInfo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingInfo">
+        <div id="collapseInfo" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingInfo">
             <div class="panel-body">
                 <p> Aplicación para ayudar a PYMES comercializadoras a expandir o reubicar su negocio.
                     Desarrollada con un framework moderno para el diseño de aplicaciones basadas en mapas con estilos Calcite
@@ -143,9 +143,11 @@
         </div>
         <div id="collapseVisibility" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingVisibility"  style="height: auto;">
             <div class="panel-body">
-                <input id="layer1" class="form-control" type="checkbox">Densidad Poblacional
-                    </input>
-                <input id="graphicsLayer2" class="form-control" type="checkbox">Instituciones Educativas
+                <input id="layer1" class="calcite-form-padding" type="checkbox">     Densidad Poblacional
+                    </input><br>
+                <input id="graphicsLayer2" class="calcite-form-padding" type="checkbox">     Instituciones Educativas
+                </input><br>
+                <input id="graphicsLayer3" class="calcite-form-padding" type="checkbox">     Dinámica Empresarial
                 </input>
             </div>
         </div>

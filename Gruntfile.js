@@ -28,7 +28,7 @@ module.exports = function(grunt) {
             build: {
                 cwd: 'app',
 
-                src: [ 'js/*', 'fonts/*/**', 'favicon.ico' ],
+                src: [ 'js/*', 'fonts/*/**', 'favicon.ico', 'data/*' ],
                 dest: 'build',
                 expand: true
             }

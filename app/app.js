@@ -66,27 +66,26 @@ require([
     map.addLayer(fl);  // adds the layer to the map
 
     //create a layer from csv file from drive
-   // var csv = new CSVLayer("https://drive.google.com/file/d/0BwvIXPDvHBvaNWgwdmgyczlySzA/view?usp=sharing",{
-    //   columnDelimiter: ";",
-    //    latitudeFieldName: "lat",
-    //    longitudeFieldName: "long"
-    //});
-    //var orangeRed = new Color([238, 69, 0, 0.5]);
-    //var marker = new SimpleMarkerSymbol("solid", 10, null, orangeRed);
+   var csv = new CSVLayer("data/DinamicaEmpresarialFormato.csv",{
+      columnDelimiter: ","
+    });
+    var orangeRed = new Color([238, 69, 0, 0.5]);
+    var marker = new SimpleMarkerSymbol("solid", 30, null, orangeRed);
 
     // Establecemos el símbolo que se utilizará para
     // representar los datos
-    //var renderer = new SimpleRenderer(marker);
-    //csv.setRenderer(renderer);
+    var renderer = new SimpleRenderer(marker);
+    csv.setRenderer(renderer);
 
     // Y asociamos un pequeño modal con información extra.
-    //var template = new InfoTemplate(
-    //   "Playa: ${name}",
-    //   "<iframe src='${pic_url}' frameborder='0' allowfullscreen style='width:100%'></iframe>",
-    //   "<a href='${thumb_url}' target='_blank'>Más info"
-    //);
-    //csv.setInfoTemplate(template);
-    //map.addLayer(csv);
+    var template = new InfoTemplate();
+    template.setTitle("${geografia_nombre}");
+    template.setContent( "<b>Indicador:</b> ${Indicador} <br/>"+
+                            "<b>Valor:</b> ${Valor}<br/>"+
+                            "<b>Fecha:</b> ${Mes}<br/>"+
+                            "<b>Actividad:</b> ${Actividad_Economica}");
+    csv.setInfoTemplate(template);
+    map.addLayer(csv);
 
     //wire event handlers to ensure that the layer which attempts to draw 1000 polygon graphics isn't visible while zooming
     fl.on("zoom-start", function() {
@@ -135,7 +134,10 @@ require([
     {
         map.getLayer("graphicsLayer2").setVisibility(!map.getLayer("graphicsLayer2").visible);
     });
-
+    query("#graphicsLayer3").on("change", function setLayerVisibility()
+    {
+        map.getLayer("graphicsLayer3").setVisibility(!map.getLayer("graphicsLayer3").visible);
+    });
     //Sets initialVisibility of the layers in the checkboxes
     function initialVisibility()
     {
