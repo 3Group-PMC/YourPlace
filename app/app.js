@@ -46,24 +46,18 @@ require([
     //add layers
 
     //Schools Bogota
+    var template = new PopupTemplate({
+        title: "Información de la institución {OBJECTID}",
+        description: "{PopupInfo}"
+    });
     var fl = new FeatureLayer("https://services2.arcgis.com/NFAaR7TquHkVlqVD/arcgis/rest/services/Colegios_Bogota/FeatureServer/0",{
         outFields : ["*"],
         infoTemplate: template
     });
 
-
     //Density of population
     var fl2 = new TileLayer("https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/PopulationDensity_Bogota/MapServer"
     ,{opacity: 0.6});
-
-    var template = new PopupTemplate({
-        title: "Información de la institución {OBJECTID}",
-        description: "{PopupInfo}"
-    });
-
-
-    map.addLayer(fl2);  // adds the layer to the map
-    map.addLayer(fl);  // adds the layer to the map
 
     //create a layer from csv file from drive
    var csv = new CSVLayer("data/DinamicaEmpresarialFormato.csv",{
@@ -78,14 +72,17 @@ require([
     csv.setRenderer(renderer);
 
     // Y asociamos un pequeño modal con información extra.
-    var template = new InfoTemplate();
-    template.setTitle("${geografia_nombre}");
-    template.setContent( "<b>Indicador:</b> ${Indicador} <br/>"+
+    var templateCSV = new InfoTemplate();
+    templateCSV.setTitle("${geografia_nombre}");
+    templateCSV.setContent( "<b>Indicador:</b> ${Indicador} <br/>"+
                             "<b>Valor:</b> ${Valor}<br/>"+
                             "<b>Fecha:</b> ${Mes}<br/>"+
                             "<b>Actividad:</b> ${Actividad_Economica}");
-    csv.setInfoTemplate(template);
-    map.addLayer(csv);
+    csv.setInfoTemplate(templateCSV);
+
+    map.addLayer(fl2);  // adds the density layer to the map
+    map.addLayer(fl);  // adds the schools layer to the map
+    map.addLayer(csv); // adds dynamic layer
 
     //wire event handlers to ensure that the layer which attempts to draw 1000 polygon graphics isn't visible while zooming
     fl.on("zoom-start", function() {
