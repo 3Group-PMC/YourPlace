@@ -143,12 +143,30 @@
         </div>
         <div id="collapseVisibility" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingVisibility"  style="height: auto;">
             <div class="panel-body">
-                <input id="layer1" class="calcite-form-padding" type="checkbox">     Densidad Poblacional
-                    </input><br>
-                <input id="graphicsLayer2" class="calcite-form-padding" type="checkbox">     Instituciones Educativas
-                </input><br>
-                <input id="graphicsLayer3" class="calcite-form-padding" type="checkbox">     Dinámica Empresarial
-                </input>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Variables</th>
+                        <th>Importancia</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input id="layer1" class="calcite-form-padding" type="checkbox">     Densidad Poblacional</input></td>
+                        <td><input id="layer1Imp" class="calcite-form-padding" type="number" min="1" max="10" > </input></td>
+                    </tr>
+                    <tr>
+                        <td><input id="graphicsLayer2" class="calcite-form-padding" type="checkbox">     Instituciones Educativas</input></td>
+                        <td><input id="graphicsLayer2Imp" class="calcite-form-padding" type="number" min="1" max="10"> </input></td>
+                    </tr>
+                    <tr>
+                        <td><input id="graphicsLayer3" class="calcite-form-padding" type="checkbox">     Dinámica Empresarial</input></td>
+                        <td><input id="graphicsLayer3Imp" class="calcite-form-padding" type="number" min="1" max="10"> </input></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--Añadir verificacion de completitud-->
+                <button data-ng-click="search()" class="btn btn-primary">Buscar</button>
             </div>
         </div>
     </div>
